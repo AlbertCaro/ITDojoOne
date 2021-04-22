@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="validForm" @submit.prevent="login">
+  <v-form ref="form" v-model="validForm">
     <v-card>
       <v-card-title> Login </v-card-title>
       <v-card-text>
@@ -15,7 +15,6 @@
                 v-model="formData.username"
                 label="Username"
                 :rules="[notEmpty]"
-                data-cy="username"
               />
             </v-row>
             <v-row>
@@ -25,7 +24,6 @@
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showPassword ? 'text' : 'password'"
                 :rules="[notEmpty]"
-                data-cy="password"
                 @click:append="showPassword = !showPassword"
               />
             </v-row>
@@ -55,19 +53,5 @@ export default {
       password: '',
     },
   }),
-
-  methods: {
-    async login() {
-      this.$refs.form.validate()
-
-      if (!this.validForm) return
-
-      try {
-        await this.$auth.loginWith('local', { data: this.formData })
-      } catch (err) {
-        this.error = 'Invalid credentials'
-      }
-    },
-  },
 }
 </script>
